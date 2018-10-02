@@ -9,15 +9,15 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.permissions import AllowAny
 from rest_framework import viewsets
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.order_by('-created')
     serializer_class = PostSerializer
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
             IsAuthorOrReadOnly)
-
+    parser_classes = (MultiPartParser, FormParser)
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 

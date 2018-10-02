@@ -31,12 +31,18 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'EXCEPTION_HANDLER': 'blog.utils.custom_exception_handler',
+    'DATETIME_FORMAT': '%s'
 }
 
 INSTALLED_APPS = [
     'rest_framework',
+    'rest_framework.authtoken',
     'blog.apps.BlogConfig',
     'corsheaders',
     'django.contrib.admin',
@@ -127,3 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploaded_media')
+MEDIA_URL = '/media/'
+

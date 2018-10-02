@@ -4,9 +4,13 @@ from django.contrib.auth.models import User
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     author = serializers.ReadOnlyField(source='author.username')
+    text_preview = serializers.SerializerMethodField()
     class Meta:
         model = Post
-        fields = ('id', 'title', 'text', 'author')
+        fields = ('id', 'title', 'text', 'author', 'created', 'text_preview', 'image')
+        
+    def get_text_preview(self, obj):
+        return obj.text[:120]
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
